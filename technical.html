@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technical Events | Tech Milan 2K26</title>
+
+    <!-- Fonts & CSS -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Outfit:wght@300;500;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="Milan logo.png" alt="Tech Milan 2K26" class="loader-logo">
+        <div class="loader-bar">
+            <div class="loader-progress"></div>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <div class="logo">
+                <img src="Miracle College logo.png" alt="Miracle College" class="college-logo-img">
+                <a href="index.html" class="fest-logo-container" style="text-decoration: none; color: inherit;">
+                    <img src="Milan logo.png" alt="Tech Milan 2K26" class="logo-img">
+                    <span>Tech Milan</span>
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="technical.html" class="nav-link active" style="color: var(--primary);">Technical</a>
+                <a href="sports.html" class="nav-link">Sports</a>
+                <a href="index.html#highlights" class="nav-link">Highlights</a>
+                <a href="index.html#about" class="nav-link">About</a>
+                <a href="index.html#contact" class="nav-link">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <header class="event-header">
+        <h1 class="event-title-large">TECHNICAL</h1>
+    </header>
+
+    <!-- Events Grid -->
+    <section class="container section-padding">
+        <div class="event-grid">
+            <!-- Dynamic Events Container -->
+            <div id="technical-container" class="event-grid-container" style="display: contents;"></div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Tech Milan 2K26 | Designed for the Future</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/events.js"></script>
+
+    <!-- Render Events Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Basic Render Logic similar to what was in script.js but ensured here
+            if (typeof eventsData !== 'undefined') {
+                const container = document.getElementById('technical-container');
+                if (container) {
+                    const filtered = eventsData.filter(e => e.category === 'technical');
+                    container.innerHTML = filtered.map(event => `
+                        <div class="glass-card event-card" style="position: relative;">
+                            <h3 class="event-name">${event.name}</h3>
+                            <div class="event-details">
+                                <span><i class="${event.iconClass}"></i> ${event.teamSize}</span>
+                                <span><i class="fas fa-tag"></i> ${event.price}</span>
+                            </div>
+                            <p class="event-desc">${event.description}</p>
+                            <button class="btn-register" onclick="window.location.href='${event.registrationLink}'">${event.buttonText || 'Register'}</button>
+                        </div>
+                    `).join('');
+                }
+            }
+        });
+    </script>
+
+    <script src="js/script.js"></script>
+</body>
+
+</html>
