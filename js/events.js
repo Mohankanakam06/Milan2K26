@@ -225,7 +225,7 @@ const eventsData = [
         description: 'Design and debug complex electronic circuits. Test your knowledge of electronics.',
         iconClass: 'fas fa-microchip',
         image: 'images/circuit.jpg',
-        registrationLink: '#',
+        registrationLink: 'https://forms.gle/gKWLi6GwaV5zopvd9',
         buttonText: 'Register Now',
         aosDelay: 0
     },
@@ -240,7 +240,7 @@ const eventsData = [
         description: 'Bring ideas to life. Design and print 3D models based on specific problem statements.',
         iconClass: 'fas fa-cube',
         image: 'images/3d.jpg',
-        registrationLink: '#',
+        registrationLink: 'https://forms.gle/UjJMoFtPCjVpNiey6',
         buttonText: 'Register Now',
         aosDelay: 100
     },
