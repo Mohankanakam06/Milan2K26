@@ -9,6 +9,17 @@
     <meta name="theme-color" content="#050510">
     <title>Tech Milan 2K26 - The Pinnacle of Innovation</title>
 
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Tech Milan 2K26 - The Pinnacle of Innovation">
+    <meta property="og:description" content="20+ events, 2000+ participants. The biggest tech & sports fest. Feb 25-27, 2026.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="Milan logo.png">
+
+    <!-- Fonts (Critical — these were missing!) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <!-- CSS -->
     <link rel="stylesheet" href="css/style.css">
 
@@ -17,6 +28,17 @@
 </head>
 
 <body>
+
+    <!-- Skip to Content (Accessibility) -->
+    <a href="#home" class="skip-to-content">Skip to content</a>
+
+    <!-- Noise Texture Overlay for depth -->
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" aria-hidden="true">
+        <div class="scroll-progress-bar"></div>
+    </div>
 
     <!-- Page Transition Overlay -->
     <div class="page-transition-overlay"></div>
@@ -71,16 +93,28 @@
     <section id="home" class="hero">
         <div class="container hero-content">
             <div class="hero-text-wrapper">
-                <h1 class="hero-title" data-text="Tech Milan 2K26">Tech Milan 2K26</h1>
-                <p class="hero-tagline">The Pinnacle of Innovation & Sportsmanship</p>
-                <div class="hero-actions">
-                    <a href="#categories" class="btn-neon">Explore The Arena</a>
-                    <a href="#timeline" class="btn-outline">View Schedule</a>
+                <div class="hero-badge reveal" data-delay="0">
+                    <span class="badge-dot"></span>
+                    <span>Feb 25–27, 2026 · Miracle College</span>
+                </div>
+                <h1 class="hero-title reveal" data-delay="100" data-text="Tech Milan 2K26">Tech Milan 2K26</h1>
+                <p class="hero-tagline reveal" data-delay="200">
+                    <span class="typed-text" data-strings='["The Pinnacle of Innovation &amp; Sportsmanship","Where Technology Meets Athleticism","Code. Compete. Conquer."]'></span>
+                    <span class="typed-cursor">|</span>
+                </p>
+                <div class="hero-actions reveal" data-delay="300">
+                    <a href="#categories" class="btn-neon magnetic-btn">
+                        <span>Explore The Arena</span>
+                        <div class="btn-ripple"></div>
+                    </a>
+                    <a href="#timeline" class="btn-outline magnetic-btn">
+                        <span>View Schedule</span>
+                    </a>
                 </div>
             </div>
 
             <!-- Banner Slideshow -->
-            <div class="hero-slideshow-container">
+            <div class="hero-slideshow-container reveal" data-delay="400">
                 <div class="slideshow-wrapper">
                     <img src="images/1.jpg" class="slide" alt="Fest Highlight 1">
                     <img src="images/2.jpg" class="slide" alt="Fest Highlight 2">
@@ -124,27 +158,31 @@
     <!-- ========== ABOUT ========== -->
     <section id="about" class="section-padding">
         <div class="container" style="text-align: center;">
-            <span class="section-subtitle">Who We Are</span>
-            <h2 class="section-title">About The Fest</h2>
-            <p style="max-width: 720px; margin: 0 auto 40px; font-size: 1.05rem; line-height: 1.7;">
+            <span class="section-subtitle reveal" data-delay="0">Who We Are</span>
+            <h2 class="section-title reveal" data-delay="100">About The Fest</h2>
+            <p class="reveal" data-delay="200" style="max-width: 720px; margin: 0 auto 40px; font-size: 1.05rem; line-height: 1.7;">
                 Tech Milan 2K26 is a convergence of technology, athleticism, and digital prowess.
                 20+ events, thousands of participants, one unforgettable arena.
             </p>
 
             <div class="about-stats">
-                <div class="about-stat-card" data-tilt>
+                <div class="about-stat-card reveal" data-delay="0" data-tilt>
+                    <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
                     <h3>20+</h3>
                     <p>Signature Events</p>
                 </div>
-                <div class="about-stat-card" data-tilt>
+                <div class="about-stat-card reveal" data-delay="100" data-tilt>
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
                     <h3>2000+</h3>
                     <p>Participants</p>
                 </div>
-                <div class="about-stat-card" data-tilt>
+                <div class="about-stat-card reveal" data-delay="200" data-tilt>
+                    <div class="stat-icon"><i class="fas fa-trophy"></i></div>
                     <h3>₹50k+</h3>
                     <p>Prizes & Swag</p>
                 </div>
-                <div class="about-stat-card" data-tilt>
+                <div class="about-stat-card reveal" data-delay="300" data-tilt>
+                    <div class="stat-icon"><i class="fas fa-handshake"></i></div>
                     <h3>15</h3>
                     <p>Partner Clubs</p>
                 </div>
@@ -162,23 +200,27 @@
     <!-- ========== CATEGORIES ========== -->
     <section id="categories" class="categories section-padding">
         <div class="container">
-            <span class="section-subtitle">Choose Your Path</span>
-            <h2 class="section-title">Event Categories</h2>
+            <span class="section-subtitle reveal">Choose Your Path</span>
+            <h2 class="section-title reveal" data-delay="100">Event Categories</h2>
 
             <div class="category-grid">
-                <div class="category-card" data-tilt onclick="window.location.href='technical.html'">
+                <div class="category-card reveal" data-delay="0" data-tilt onclick="window.location.href='technical.html'">
                     <div class="card-glow"></div>
+                    <div class="card-shine"></div>
                     <i class="fas fa-microchip"></i>
                     <h3>Technical</h3>
                     <p>Code, design & innovate. The future is built here.</p>
+                    <span class="event-count-badge">10+ Events</span>
                     <button class="btn-neon small-btn">Enter Zone</button>
                 </div>
 
-                <div class="category-card" data-tilt onclick="window.location.href='sports.html'">
+                <div class="category-card reveal" data-delay="150" data-tilt onclick="window.location.href='sports.html'">
                     <div class="card-glow"></div>
+                    <div class="card-shine"></div>
                     <i class="fas fa-running"></i>
                     <h3>Sports</h3>
                     <p>Strength, Speed & Strategy. Glory awaits the swift.</p>
+                    <span class="event-count-badge">10+ Events</span>
                     <button class="btn-neon small-btn">Enter Zone</button>
                 </div>
             </div>
@@ -195,14 +237,14 @@
     <!-- ========== HIGHLIGHTS ========== -->
     <section id="highlights" class="section-padding experience-section">
         <div class="container">
-            <span class="section-subtitle">Experience the Vibe</span>
-            <h2 class="section-title">Fest Highlights</h2>
-            <p style="text-align: center; max-width: 640px; margin: 0 auto 48px; font-size: 1rem; line-height: 1.7;">
+            <span class="section-subtitle reveal">Experience the Vibe</span>
+            <h2 class="section-title reveal" data-delay="100">Fest Highlights</h2>
+            <p class="reveal" data-delay="200" style="text-align: center; max-width: 640px; margin: 0 auto 48px; font-size: 1rem; line-height: 1.7;">
                 Beyond the competitions, Tech Milan is a celebration of culture, food, and music.
             </p>
 
             <div class="experience-grid">
-                <div class="highlight-card glass-panel" data-tilt>
+                <div class="highlight-card glass-panel reveal" data-delay="0" data-tilt>
                     <div class="card-glow"></div>
                     <div class="content">
                         <i class="fas fa-music"></i>
@@ -211,7 +253,7 @@
                     </div>
                 </div>
 
-                <div class="highlight-card glass-panel" data-tilt>
+                <div class="highlight-card glass-panel reveal" data-delay="100" data-tilt>
                     <div class="card-glow"></div>
                     <div class="content">
                         <i class="fas fa-utensils"></i>
@@ -220,7 +262,7 @@
                     </div>
                 </div>
 
-                <div class="highlight-card glass-panel" data-tilt>
+                <div class="highlight-card glass-panel reveal" data-delay="200" data-tilt>
                     <div class="card-glow"></div>
                     <div class="content">
                         <i class="fas fa-gamepad"></i>
@@ -229,7 +271,7 @@
                     </div>
                 </div>
 
-                <div class="highlight-card glass-panel" data-tilt>
+                <div class="highlight-card glass-panel reveal" data-delay="300" data-tilt>
                     <div class="card-glow"></div>
                     <div class="content">
                         <i class="fas fa-fire"></i>
@@ -251,28 +293,53 @@
     <!-- ========== TIMELINE ========== -->
     <section id="timeline" class="section-padding timeline-section">
         <div class="container">
-            <span class="section-subtitle">Flow of the Fest</span>
-            <h2 class="section-title">Event Timeline</h2>
+            <span class="section-subtitle reveal">Flow of the Fest</span>
+            <h2 class="section-title reveal" data-delay="100">Event Timeline</h2>
             <div class="timeline">
-                <div class="timeline-item">
-                    <h4>Registrations Open — Now</h4>
-                    <p>Early bird slots with priority seeding for flagship events.</p>
+                <div class="timeline-progress"></div>
+                <div class="timeline-item reveal" data-delay="0">
+                    <div class="timeline-marker">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Now</span>
+                        <h4>Registrations Open</h4>
+                        <p>Early bird slots with priority seeding for flagship events.</p>
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>Day 1: The Grand Awakening — Feb 25</h4>
-                    <p>Witness the spectacular <strong>Traditional Inauguration</strong> and the official <strong>Banner
-                            Launch</strong>. The campus comes alive with a high-fashion <strong>Ramp Walk</strong> and
-                        an electrifying surprise <strong>Flash Mob</strong>!</p>
+                <div class="timeline-item reveal" data-delay="100">
+                    <div class="timeline-marker">
+                        <i class="fas fa-flag"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Feb 25</span>
+                        <h4>Day 1: The Grand Awakening</h4>
+                        <p>Witness the spectacular <strong>Traditional Inauguration</strong> and the official <strong>Banner
+                                Launch</strong>. The campus comes alive with a high-fashion <strong>Ramp Walk</strong> and
+                            an electrifying surprise <strong>Flash Mob</strong>!</p>
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>Day 2: Tech-O-Mania — Feb 26</h4>
-                    <p><strong>Technical Day:</strong> Where innovation meets adrenaline. Dive into a marathon of coding
-                        battles, robot wars, and brain-teasing technical challenges.</p>
+                <div class="timeline-item reveal" data-delay="200">
+                    <div class="timeline-marker">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Feb 26</span>
+                        <h4>Day 2: Tech-O-Mania</h4>
+                        <p><strong>Technical Day:</strong> Where innovation meets adrenaline. Dive into a marathon of coding
+                            battles, robot wars, and brain-teasing technical challenges.</p>
+                    </div>
                 </div>
-                <div class="timeline-item">
-                    <h4>Day 3: Cultural Extravaganza — Feb 27</h4>
-                    <p><strong>Cultural Day:</strong> The ultimate showdown of talent and rhythm. Dance, music, drama,
-                        and pure entertainment explode on stage.</p>
+                <div class="timeline-item reveal" data-delay="300">
+                    <div class="timeline-marker">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Feb 27</span>
+                        <h4>Day 3: Cultural Extravaganza</h4>
+                        <p><strong>Cultural Day:</strong> The ultimate showdown of talent and rhythm. Dance, music, drama,
+                            and pure entertainment explode on stage.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -416,21 +483,21 @@
                     <i class="fas fa-user-tie"
                         style="font-size: 1.8rem; color: var(--primary); margin-bottom: 12px;"></i>
                     <h4 style="font-size: 1rem;">Technical Head</h4>
-                    <p style="font-size: 0.85rem; margin-bottom: 4px;">John Doe</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 4px;">Tony Stark</p>
                     <a href="#" style="color: var(--primary); font-size: 0.8rem;">+91 98765 43210</a>
                 </div>
                 <div class="glass-card" data-tilt style="padding: 24px; text-align: center;">
                     <i class="fas fa-user-tie"
                         style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 12px;"></i>
                     <h4 style="font-size: 1rem;">Sports Head</h4>
-                    <p style="font-size: 0.85rem; margin-bottom: 4px;">Jane Smith</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 4px;">Bruce Wayne</p>
                     <a href="#" style="color: var(--primary); font-size: 0.8rem;">+91 98765 43211</a>
                 </div>
                 <div class="glass-card" data-tilt style="padding: 24px; text-align: center;">
                     <i class="fas fa-user-tie"
                         style="font-size: 1.8rem; color: var(--secondary); margin-bottom: 12px;"></i>
                     <h4 style="font-size: 1rem;">Overall Coord</h4>
-                    <p style="font-size: 0.85rem; margin-bottom: 4px;">Sarah Williams</p>
+                    <p style="font-size: 0.85rem; margin-bottom: 4px;">Stan Lee</p>
                     <a href="#" style="color: var(--primary); font-size: 0.8rem;">+91 98765 43213</a>
                 </div>
             </div>

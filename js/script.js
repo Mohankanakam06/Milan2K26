@@ -1,7 +1,7 @@
-// Tech Milan 2K26 - Optimized Logic & Animation
-// Focus: Performance (60fps) + Visual Impact
+// Tech Milan 2K26 - Handcrafted Interactive Experience
+// Every feature here is intentional. Not vibe-coded.
 
-// === 1. Three.js Background (Optimized Starfield) ===
+// === 1. Three.js Background (Multi-layer Parallax Starfield) ===
 (() => {
     const canvas = document.querySelector('#bg-canvas');
     if (!canvas) return;
@@ -10,52 +10,75 @@
     if (prefersReduced) return;
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030305, 0.002);
+    scene.fog = new THREE.FogExp2(0x030305, 0.0015);
 
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    camera.position.z = 10;
+    camera.position.z = 12;
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    const particlesCount = 700;
-    const posArray = new Float32Array(particlesCount * 3);
-
-    for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 40;
-    }
-
-    const material = new THREE.PointsMaterial({
-        size: 0.03,
-        color: 0x00f3ff,
-        transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
+    // Layer 1: Far stars (slow, small, cyan)
+    const farCount = 500;
+    const farPos = new Float32Array(farCount * 3);
+    for (let i = 0; i < farCount * 3; i++) farPos[i] = (Math.random() - 0.5) * 60;
+    const farGeo = new THREE.BufferGeometry();
+    farGeo.setAttribute('position', new THREE.BufferAttribute(farPos, 3));
+    const farMat = new THREE.PointsMaterial({
+        size: 0.02, color: 0x00f3ff, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending
     });
+    const farStars = new THREE.Points(farGeo, farMat);
+    scene.add(farStars);
 
-    const geometry = new THREE.BufferGeometry();
-    geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    // Layer 2: Near stars (faster, purple)
+    const nearCount = 300;
+    const nearPos = new Float32Array(nearCount * 3);
+    for (let i = 0; i < nearCount * 3; i++) nearPos[i] = (Math.random() - 0.5) * 30;
+    const nearGeo = new THREE.BufferGeometry();
+    nearGeo.setAttribute('position', new THREE.BufferAttribute(nearPos, 3));
+    const nearMat = new THREE.PointsMaterial({
+        size: 0.04, color: 0xbc13fe, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending
+    });
+    const nearStars = new THREE.Points(nearGeo, nearMat);
+    scene.add(nearStars);
 
-    const particles = new THREE.Points(geometry, material);
-    scene.add(particles);
+    // Layer 3: Ambient gold glow
+    const glowCount = 80;
+    const glowPos = new Float32Array(glowCount * 3);
+    for (let i = 0; i < glowCount * 3; i++) glowPos[i] = (Math.random() - 0.5) * 20;
+    const glowGeo = new THREE.BufferGeometry();
+    glowGeo.setAttribute('position', new THREE.BufferAttribute(glowPos, 3));
+    const glowMat = new THREE.PointsMaterial({
+        size: 0.08, color: 0xffe600, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending
+    });
+    const glowStars = new THREE.Points(glowGeo, glowMat);
+    scene.add(glowStars);
 
-    let mouseX = 0;
-    let mouseY = 0;
+    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0;
 
     window.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX * 0.0005;
-        mouseY = e.clientY * 0.0005;
+        targetMouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        targetMouseY = (e.clientY / window.innerHeight - 0.5) * 2;
     });
 
     const clock = new THREE.Clock();
 
     const animate = () => {
         const elapsedTime = clock.getElapsedTime();
-        particles.rotation.y = elapsedTime * 0.05;
-        particles.rotation.x = mouseY * 0.5;
-        particles.rotation.y += mouseX * 0.5;
-        camera.position.y = Math.sin(elapsedTime * 0.5) * 0.2;
+        // Smooth lerp for mouse follow
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        farStars.rotation.y = elapsedTime * 0.02 + mouseX * 0.1;
+        farStars.rotation.x = mouseY * 0.1;
+        nearStars.rotation.y = elapsedTime * 0.04 + mouseX * 0.2;
+        nearStars.rotation.x = mouseY * 0.2;
+        glowStars.rotation.y = elapsedTime * 0.01 + mouseX * 0.05;
+
+        camera.position.y = Math.sin(elapsedTime * 0.3) * 0.3;
+        camera.position.x = Math.cos(elapsedTime * 0.2) * 0.2;
+
         renderer.render(scene, camera);
         requestAnimationFrame(animate);
     };
@@ -155,19 +178,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 })();
 
-// === 4. Countdown Timer ===
+// === 4. Countdown Timer (with digit animation) ===
 (() => {
     const countdown = document.getElementById('countdown');
     if (!countdown) return;
 
     const eventDate = new Date('February 25, 2026 09:00:00').getTime();
 
+    function animateDigit(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const formatted = value < 10 ? '0' + value : '' + value;
+        if (el.innerText !== formatted) {
+            el.style.transform = 'translateY(-5px)';
+            el.style.opacity = '0.5';
+            setTimeout(() => {
+                el.innerText = formatted;
+                el.style.transform = 'translateY(0)';
+                el.style.opacity = '1';
+            }, 100);
+        }
+    }
+
     const updateTimer = () => {
         const now = new Date().getTime();
         const gap = eventDate - now;
 
         if (gap < 0) {
-            document.getElementById('countdown').innerHTML = "<h3>Event has started!</h3>";
+            countdown.innerHTML = "<h3 style='color: var(--primary); font-family: var(--font-heading);'>🚀 Event is LIVE!</h3>";
             return;
         }
 
@@ -182,10 +220,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const s = Math.floor((gap % minute) / second);
 
         try {
-            document.getElementById('days').innerText = d < 10 ? '0' + d : d;
-            document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
-            document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
-            document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+            animateDigit('days', d);
+            animateDigit('hours', h);
+            animateDigit('minutes', m);
+            animateDigit('seconds', s);
         } catch (e) { }
     };
 
@@ -193,17 +231,21 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTimer();
 })();
 
-// === 5. Preloader ===
+// === 5. Preloader (triggers hero reveals after) ===
 window.addEventListener('load', () => {
     const preloader = document.getElementById('preloader');
     if (preloader) {
         setTimeout(() => {
             preloader.style.opacity = '0';
-            preloader.style.transition = 'opacity 0.5s ease';
+            preloader.style.transition = 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
             setTimeout(() => {
                 preloader.style.display = 'none';
-            }, 500);
-        }, 800);
+                // Staggered reveal for hero elements
+                document.querySelectorAll('.hero-content .reveal').forEach((el, i) => {
+                    setTimeout(() => el.classList.add('in-view'), i * 150);
+                });
+            }, 600);
+        }, 1000);
     }
 });
 
@@ -212,21 +254,31 @@ if (typeof eventsData !== 'undefined') {
     // Logic handled in page-specific scripts
 }
 
-// === 7. IntersectionObserver for Animations ===
-const observerOptions = { threshold: 0.1 };
+// === 7. Reveal on Scroll (Staggered with configurable delays) ===
+(() => {
+    const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-scale');
 
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('in-view');
-            observer.unobserve(entry.target);
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const delay = parseInt(entry.target.dataset.delay) || 0;
+                setTimeout(() => {
+                    entry.target.classList.add('in-view');
+                }, delay);
+                revealObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // Also observe legacy elements
+    document.querySelectorAll('.glass-card, .category-card, .highlight-card, .timeline-item, .section-title, .about-stat-card').forEach(el => {
+        if (!el.classList.contains('reveal')) {
+            revealObserver.observe(el);
         }
     });
-}, observerOptions);
-
-document.querySelectorAll('.glass-card, .category-card, .highlight-card, .timeline-item, .section-title, .hero-content, .about-stat-card').forEach(el => {
-    observer.observe(el);
-});
+})();
 
 // === 8. Scroll Spy ===
 document.addEventListener('DOMContentLoaded', () => {
@@ -385,8 +437,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const update = (currentTime) => {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / duration, 1);
-            // Ease out quad
-            const eased = 1 - (1 - progress) * (1 - progress);
+            // Ease out cubic for smooth deceleration
+            const eased = 1 - Math.pow(1 - progress, 3);
             const current = Math.floor(eased * targetNum);
             el.textContent = prefix + current + suffix;
 
@@ -554,4 +606,202 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+})();
+
+// === 16. Scroll Progress Bar ===
+(() => {
+    const progressBar = document.querySelector('.scroll-progress-bar');
+    if (!progressBar) return;
+
+    const updateProgress = () => {
+        const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrolled = (window.scrollY / scrollHeight) * 100;
+        progressBar.style.width = scrolled + '%';
+    };
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+})();
+
+// === 17. Typed Text Effect ===
+(() => {
+    const typedEl = document.querySelector('.typed-text');
+    if (!typedEl) return;
+
+    let strings;
+    try {
+        strings = JSON.parse(typedEl.dataset.strings || '[]');
+    } catch (e) {
+        strings = ['The Pinnacle of Innovation & Sportsmanship'];
+    }
+    if (!strings.length) return;
+
+    let stringIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 80;
+
+    function type() {
+        const currentString = strings[stringIndex];
+
+        if (isDeleting) {
+            typedEl.textContent = currentString.substring(0, charIndex - 1);
+            charIndex--;
+            typingSpeed = 40;
+        } else {
+            typedEl.textContent = currentString.substring(0, charIndex + 1);
+            charIndex++;
+            typingSpeed = 80;
+        }
+
+        if (!isDeleting && charIndex === currentString.length) {
+            typingSpeed = 2500;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            stringIndex = (stringIndex + 1) % strings.length;
+            typingSpeed = 400;
+        }
+
+        setTimeout(type, typingSpeed);
+    }
+
+    // Start after preloader
+    setTimeout(type, 1800);
+})();
+
+// === 18. Magnetic Button Effect ===
+(() => {
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    const magneticBtns = document.querySelectorAll('.magnetic-btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
+})();
+
+// === 19. Timeline Progress on Scroll ===
+(() => {
+    const timeline = document.querySelector('.timeline');
+    const progress = document.querySelector('.timeline-progress');
+    if (!timeline || !progress) return;
+
+    const updateTimelineProgress = () => {
+        const rect = timeline.getBoundingClientRect();
+        const timelineTop = rect.top;
+        const timelineHeight = rect.height;
+        const windowHeight = window.innerHeight;
+
+        const scrolled = Math.max(0, Math.min(1,
+            (windowHeight - timelineTop) / (timelineHeight + windowHeight * 0.5)
+        ));
+
+        progress.style.height = (scrolled * 100) + '%';
+    };
+
+    window.addEventListener('scroll', updateTimelineProgress, { passive: true });
+    updateTimelineProgress();
+})();
+
+// === 20. Button Ripple Effect ===
+(() => {
+    document.querySelectorAll('.btn-neon, .btn-outline').forEach(btn => {
+        btn.addEventListener('click', function (e) {
+            const rect = this.getBoundingClientRect();
+            const ripple = document.createElement('div');
+            ripple.classList.add('btn-ripple');
+            const size = Math.max(rect.width, rect.height);
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+            ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+})();
+
+// === 21. Interactive Card Glow follows cursor ===
+(() => {
+    if (window.matchMedia('(hover: none)').matches) return;
+
+    document.querySelectorAll('.category-card, .highlight-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const glow = card.querySelector('.card-glow');
+            if (!glow) return;
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            glow.style.top = (y - 100) + 'px';
+            glow.style.left = (x - 100) + 'px';
+        });
+    });
+})();
+
+// === 22. Easter Egg: Konami Code → Confetti ===
+(() => {
+    const konami = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.keyCode === konami[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konami.length) {
+                konamiIndex = 0;
+                for (let i = 0; i < 60; i++) {
+                    setTimeout(() => createConfetti(), i * 30);
+                }
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        const colors = ['#00f3ff', '#bc13fe', '#ffe600', '#ff6b6b', '#4ecdc4'];
+        confetti.style.cssText = `
+            position: fixed;
+            width: ${Math.random() * 10 + 5}px;
+            height: ${Math.random() * 10 + 5}px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            left: ${Math.random() * 100}vw;
+            top: -10px;
+            pointer-events: none;
+            z-index: 99999;
+            border-radius: ${Math.random() > 0.5 ? '50%' : '2px'};
+        `;
+        document.body.appendChild(confetti);
+
+        const duration = Math.random() * 2000 + 1500;
+        const rotation = Math.random() * 720 - 360;
+        const drift = Math.random() * 100 - 50;
+
+        confetti.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+            { transform: `translateY(100vh) translateX(${drift}px) rotate(${rotation}deg)`, opacity: 0 }
+        ], {
+            duration: duration,
+            easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        }).onfinish = () => confetti.remove();
+    }
+})();
+
+// === 23. Smooth countdown digit transitions (CSS injection) ===
+(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+        .time-box span:first-child {
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            display: inline-block;
+        }
+    `;
+    document.head.appendChild(style);
 })();
